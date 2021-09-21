@@ -30,15 +30,15 @@ try:
         cursor.execute("select database();")
         record = cursor.fetchone()
         print("You're connected to database: ", record)
-        cursor.execute('DROP TABLE IF EXISTS soal;')
+        cursor.execute('DROP TABLE IF EXISTS jawaban;')
         print('Creating table....')
         cursor.execute(
             "CREATE TABLE soal(id_jawaban int(11),id_siswa int(11),id_soal int(11),pilihan_jawaban varchar(255))")
         print("Table is created....")
         for i, row in empdata.iterrows():
-            sql = "INSERT INTO kluster.soal VALUES (%s,%s,%s,%s)"
+            sql = "INSERT INTO kluster.jawaban VALUES (%s,%s,%s,%s)"
             cursor.execute(sql, tuple(row))
-            print("Record inserted")
+            # print("Record inserted")
             conn.commit()
 except Error as e:
     print("Error while connecting to MySQL", e)
