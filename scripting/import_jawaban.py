@@ -33,7 +33,7 @@ try:
         cursor.execute('DROP TABLE IF EXISTS jawaban;')
         print('Creating table....')
         cursor.execute(
-            "CREATE TABLE soal(id_jawaban int(11),id_siswa int(11),id_soal int(11),pilihan_jawaban varchar(255))")
+            "CREATE TABLE jawaban(id_jawaban int(11),id_siswa int(11),id_soal int(11),pilihan_jawaban varchar(255))")
         print("Table is created....")
         for i, row in empdata.iterrows():
             sql = "INSERT INTO kluster.jawaban VALUES (%s,%s,%s,%s)"
