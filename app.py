@@ -1,19 +1,33 @@
 from flask.app import Flask
 from flask.templating import render_template
 from flask import request
-from sql_helper import detail_siswa
+from sql_helper import detail_siswa, select_nilai
+import time
 app = Flask(__name__)
 
-res = detail_siswa()
+start = time.perf_counter()
+detail = detail_siswa()
+end = time.perf_counter()
+print(f"Fetching students data in {end-start}s")
+
+start = time.perf_counter()
+res = select_nilai()
+end = time.perf_counter()
+print(f"Fetching students score in {end-start}s")
+
+start = time.perf_counter()
+res = [i+j for i, j in zip(detail, res)]
+end = time.perf_counter()   
+print(f"Combining all data in {end-start}s")
 
 ms = {
-    'matematika': 4,
-    'fisika': 5,
-    'biologi': 6,
-    'bahasa indonesia': 7,
-    'bahasa inggris': 8,
-    'sejarah': 9,
-    'kimia': 10
+    'matematika': 3,
+    'fisika': 4,
+    'biologi': 5,
+    'bahasa indonesia': 6,
+    'bahasa inggris': 7,
+    'sejarah': 8,
+    'kimia': 9
 }
 
 qs = {

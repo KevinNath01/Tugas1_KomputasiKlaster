@@ -31,7 +31,7 @@ def select_nilai():
         conn = msql.connect(host='localhost', database='kluster', user='root', password='')
         if conn.is_connected():
             cursor = conn.cursor()
-            cursor.execute("SELECT `mapel`.`nama_mapel`, SUM(`jawaban`.`pilihan_jawaban`=`soal`.`kunci_jawaban`)*2.5 AS nilai, `jawaban`.`id_siswa` FROM `soal` INNER JOIN `jawaban` ON `soal`.`id_soal` = `jawaban`.`id_soal` INNER JOIN `mapel` ON `soal`.`id_mapel` = `mapel`.`id_mapel` GROUP BY  `jawaban`.`id_siswa`, `soal`.`id_mapel`;")
+            cursor.execute("SELECT MAX(CASE WHEN `query_nilai`.`id_mapel`=1 THEN `query_nilai`.`nilai` ELSE 0 END) AS mapel_1, MAX(CASE WHEN `query_nilai`.`id_mapel`=2 THEN `query_nilai`.`nilai` ELSE 0 END) AS mapel_2, MAX(CASE WHEN `query_nilai`.`id_mapel`=3 THEN `query_nilai`.`nilai` ELSE 0 END) AS mapel_3, MAX(CASE WHEN `query_nilai`.`id_mapel`=4 THEN `query_nilai`.`nilai` ELSE 0 END) AS mapel_4, MAX(CASE WHEN `query_nilai`.`id_mapel`=5 THEN `query_nilai`.`nilai` ELSE 0 END) AS mapel_5, MAX(CASE WHEN `query_nilai`.`id_mapel`=6 THEN `query_nilai`.`nilai` ELSE 0 END) AS mapel_6, MAX(CASE WHEN `query_nilai`.`id_mapel`=7 THEN `query_nilai`.`nilai` ELSE 0 END) AS mapel_7 FROM `query_nilai` GROUP BY `query_nilai`.`id_siswa`;")
             record = cursor.fetchall()
             return record
     except Error as e:
@@ -49,7 +49,7 @@ def detail_siswa():
         conn = msql.connect(host='localhost', database='kluster', user='root', password='')
         if conn.is_connected():
             cursor = conn.cursor()
-            cursor.execute(f"SELECT `nilai`.`id_siswa`,`siswa`.`nama_siswa`,`siswa`.`nisn`,`kota`.`nama_kota`,MAX(CASE WHEN `nilai`.`id_mapel`='1' THEN `nilai`.`nilai` END) 'Matematika',MAX(CASE WHEN `nilai`.`id_mapel`='2' THEN `nilai`.`nilai` END) 'Fisika',MAX(CASE WHEN `nilai`.`id_mapel`='3' THEN `nilai`.`nilai` END) 'Biologi',MAX(CASE WHEN `nilai`.`id_mapel`='3' THEN `nilai`.`nilai` END) 'Bahasa Indonesia',MAX(CASE WHEN `nilai`.`id_mapel`='3' THEN `nilai`.`nilai` END) 'Bahasa Inggris',MAX(CASE WHEN `nilai`.`id_mapel`='3' THEN `nilai`.`nilai` END) 'Sejarah',MAX(CASE WHEN `nilai`.`id_mapel`='3' THEN `nilai`.`nilai` END) 'Kimia' FROM nilai INNER JOIN `siswa` ON `siswa`.`id_siswa` = `nilai`.`id_siswa` INNER JOIN `kota` ON `kota`.`id_kota`= `siswa`.`id_kota` GROUP BY `nilai`.`id_siswa`;")
+            cursor.execute(f"SELECT `siswa`.`nama_siswa`, `siswa`.`nisn`, `kota`.`nama_kota` FROM `siswa` INNER JOIN `kota` ON `siswa`.`id_kota`=`kota`.`id_kota`;")
             record = cursor.fetchall()
             return record
     except Error as e:
